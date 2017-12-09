@@ -5,7 +5,8 @@ var VG = (function(vg, $) {
         var resultsTime = document.getElementById('results-time').value;
         var uploadFileName = 'points_task_'+resultsTime + '.json'
 
-        AWS.config.update({accessKeyId: 'AKIAIGY2E2BJRDZEKAHQ', secretAccessKey: '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', region: 'us-east-1'});
+        //AWS.config.update({accessKeyId: 'AKIAIGY2E2BJRDZEKAHQ', secretAccessKey: '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', region: 'us-east-1'});
+        AWS.config.update({accessKeyId: 'AKIAJUCW44V64NZPWXMA', secretAccessKey: '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', region: 'us-east-1'});
         var buck = 'visualaipascalresponses';
         var s3Client = new AWS.S3();
         var params = {
@@ -18,7 +19,6 @@ var VG = (function(vg, $) {
            else     console.log(data);           // successful response   
         });
     }
-
 
     return vg;
 }(VG|| {}, jQuery));

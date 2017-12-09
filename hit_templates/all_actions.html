@@ -304,7 +304,7 @@ Warning: this is preview mode. You will not be able to submit.
           for(var i=0; i < batch_size; i++) {
               VG.getObj(i, 'points/'+fImgs[i]+'.json', 
                   function(ind, err, file){
-                    if(err) { console.log('Error finding json'); throw err;}
+                if(err) {console.log(err, err.stack);}
                       points[fImgs[ind]] = JSON.parse(file.Body.toString('utf-8'));
                       //console.log('Got points');
                       //console.log(JSON.parse(file.Body.toString('utf-8')));
@@ -317,7 +317,7 @@ Warning: this is preview mode. You will not be able to submit.
           for(var i=0; i < batch_size;i++){
               VG.getObj(i, fImgs[i]+'.jpg', 
                   function(ind, err, file){
-                    if(err) { console.log('Error finding jpg'); throw err;}
+            if(err) { console.log(err, err.stack);} 
                       var canvas = document.createElement("canvas");
                       var im = new Image();
                       im.src = "data:image/jpeg;base64," + encode(file.Body);
