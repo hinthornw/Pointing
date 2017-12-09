@@ -15,18 +15,18 @@
 	 //image-net.org/path/to/templates/ --> 
 
     <script src="https://sdk.amazonaws.com/js/aws-sdk-2.154.0.min.js"></script>
-    <script src='https://github.com/hinthornw/Pointing/tree/master/hit_templates/jsrequire.js'></script>
-    <script src='https://github.com/hinthornw/Pointing/tree/master/hit_templates/jsutils.js'></script>
-    <script src='https://github.com/hinthornw/Pointing/tree/master/hit_templates/jscarosel.js'></script>
+    <script src='https://rawgit.com/hinthornw/Pointing/master/hit_templates/js/require.js'></script>
+    <script src='https://rawgit.com/hinthornw/Pointing/master/hit_templates/js/utils.js'></script>
+    <script src='https://rawgit.com/hinthornw/Pointing/master/hit_templates/js/carosel.js'></script>
     <!-- If want to get just one click per object class -->
-    <script src='https://github.com/hinthornw/Pointing/tree/master/hit_templates/jspart-task.js'></script>
-    <script src='https://github.com/hinthornw/Pointing/tree/master/hit_templates/jstimer.js'></script>
-    <script src='https://github.com/hinthornw/Pointing/tree/master/hit_templates/jslist-keys.js'></script>
-    <script src='https://github.com/hinthornw/Pointing/tree/master/hit_templates/jsget-cached-valid-imgs.js'></script>
-    <script src='https://github.com/hinthornw/Pointing/tree/master/hit_templates/jsget-obj.js'></script>
-    <script src='https://github.com/hinthornw/Pointing/tree/master/hit_templates/jsput-obj-s3.js'></script>
-    <script src='https://github.com/hinthornw/Pointing/tree/master/hit_templates/jsdrawpoint.js'></script>
-    <script src='https://github.com/hinthornw/Pointing/tree/master/hit_templates/jsget_obj_dictionary_hr.js'></script>
+    <script src='https://rawgit.com/hinthornw/Pointing/master/hit_templates/js/part-task.js'></script>
+    <script src='https://rawgit.com/hinthornw/Pointing/master/hit_templates/js/timer.js'></script>
+    <script src='https://rawgit.com/hinthornw/Pointing/master/hit_templates/js/list-keys.js'></script>
+    <script src='https://rawgit.com/hinthornw/Pointing/master/hit_templates/js/get-cached-valid-imgs.js'></script>
+    <script src='https://rawgit.com/hinthornw/Pointing/master/hit_templates/js/get-obj.js'></script>
+    <script src='https://rawgit.com/hinthornw/Pointing/master/hit_templates/js/put-obj-s3.js'></script>
+    <script src='https://rawgit.com/hinthornw/Pointing/master/hit_templates/js/drawpoint.js'></script>
+    <script src='https://rawgit.com/hinthornw/Pointing/master/hit_templates/js/get_obj_dictionary_hr.js'></script>
     <!-- -->
 
     <link href='//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css' rel='stylesheet'>
@@ -304,7 +304,7 @@ Warning: this is preview mode. You will not be able to submit.
           for(var i=0; i < batch_size; i++) {
               VG.getObj(i, 'points/'+fImgs[i]+'.json', 
                   function(ind, err, file){
-                      if(err) throw err;
+                    if(err) { console.log('Error finding json'); throw err;}
                       points[fImgs[ind]] = JSON.parse(file.Body.toString('utf-8'));
                       //console.log('Got points');
                       //console.log(JSON.parse(file.Body.toString('utf-8')));
@@ -317,7 +317,7 @@ Warning: this is preview mode. You will not be able to submit.
           for(var i=0; i < batch_size;i++){
               VG.getObj(i, fImgs[i]+'.jpg', 
                   function(ind, err, file){
-                      if(err) throw err;
+                    if(err) { console.log('Error finding jpg'); throw err;}
                       var canvas = document.createElement("canvas");
                       var im = new Image();
                       im.src = "data:image/jpeg;base64," + encode(file.Body);
@@ -327,7 +327,6 @@ Warning: this is preview mode. You will not be able to submit.
                           canvas.setAttribute("alt", fImgs[ind]+'.jpg');
                           canvas.setAttribute('width', im.width);
                           canvas.setAttribute('height', im.height);
-
                           var ctx = canvas.getContext('2d');
                           ctx.drawImage(im,0,0,im.width, im.height);
                           var imName = fImgs[ind]; 
@@ -513,7 +512,6 @@ Warning: this is preview mode. You will not be able to submit.
 	      
               var obj = "Object or Part";
               var objs = "object or part";
-            console.log(' Setting clsname to ' + obj);
 	      $('#clsname').text(obj);
 
 	      document.getElementById('global-instr').innerHTML = "<b>Instructions:</b><br>" + 
@@ -544,7 +542,7 @@ Warning: this is preview mode. You will not be able to submit.
 	  }
 	 
       //VG.getImages(batch_size, function(imgs) {main(imgs)});
-	  main();
+        $( document ).ready(function() {console.log('Ready'); main();});
       });
     </script>
   </body>
