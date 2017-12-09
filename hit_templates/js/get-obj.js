@@ -10,6 +10,7 @@ var VG = (function(vg, $) {
             Key: key
 
         }
+        console.log(s3Client)
         s3Client.getObject(params, function(data, err){cb(ind, data, err)});
     }
 
