@@ -165,8 +165,8 @@ var VG = (function(vg) {
     // Set up keypress handlers for keyboard shortcuts
     //prevKeys = [37, 65]; // a and left
     //nextKeys = [39, 68]; // d and right
-    prevKeys = [37];
-    nextKeys = [39];
+    prevKeys = [37, 72]; // left and h
+    nextKeys = [39, 76]; // right and l
     partKeys = [65];
     objKeys = [83]; // s is whole object
     impKeys = [68];// d is impossible to tell
