@@ -10,7 +10,7 @@ var VG= (function(vg, $) {
     // via a credentials file in the standard location, or environment
     // variables. See:
     // http://docs.aws.amazon.com/AWSJavaScriptSDK/guide/node-configuring.html
-    AWS.config.update({accessKeyId: 'AKIAIGY2E2BJRDZEKAHQ', secretAccessKey: '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', region: 'us-east-1'});
+//    AWS.config.update({accessKeyId: 'AKIAIGY2E2BJRDZEKAHQ', secretAccessKey: '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', region: 'us-east-1'});
     var s3Client = new AWS.S3();
      
     // How many keys to retrieve with a single request to the S3 API.
