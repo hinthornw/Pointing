@@ -20,7 +20,7 @@ var VG = (function(vg) {
         //var bbox_drawer = new VG.PointDrawer(drawer_div,image_url,null,bbox_drawer_options);
         var timer = new VG.Timer();
         that.GetAnswerIfValid = function () {
-            return { [ task_input.im_name+"_"+task_input.obj_id+"_"+task.inst_id+"_"+task_input.part_id+"_"+task_input.xCoord+"_"+task_input.yCoord ] : 
+            return { [ task_input.im_name+"_"+task_input.obj_id+"_"+task_input.inst_id+"_"+task_input.part_id+"_"+task_input.xCoord+"_"+task_input.yCoord ] : 
                     { 'answer': task_input.getAnswer(),
                     //'im_name': task_input.im_name,
                     //'obj_id': task_input.obj_id,
