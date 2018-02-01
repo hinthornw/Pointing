@@ -108,6 +108,7 @@ var VG = (function(vg) {
         console.log("input to dict");
         console.log(objId);
         console.log(partId);
+        console.log(id2text[objId]);
         var objText = id2text[objId]['name']; 
         //var partText = id2text[objId]['parts'][partId];
         var partText = objText + " part [a]";
