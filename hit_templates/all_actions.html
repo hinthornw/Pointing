@@ -236,8 +236,6 @@
          $(function() {
          var url_params = simplewill.getUrlParams();
          //var url_params = simpleamt.getUrlParam();
-         console.log("url_params:");
-         console.log(url_params);
          
          //var SAMPLE_INPUT = VG.SampleInput().get(url_params.index);
          var DEFAULT_INPUT = { 'im': 'https://picsum.photos/200/300/?random', 'points': []};
@@ -251,11 +249,7 @@
          function main() {
              simpleamt.setupSubmit();
              var data = simplewill.getInput(DEFAULT_INPUT);
-
              //var data = simpleamt.getInput(DEFAULT_INPUT);
-             console.log('data');
-             console.log(data); // Should be format [{'image_name': flattened_data_dictionary}, {}, ...]
-             console.log(' ');
 
              ////Collect the im_names separately
              //if(data['input'].length == 2){
@@ -267,12 +261,9 @@
 
              data = data['input'][0];
             
-             console.log(Object.values(data[0]))
-             console.log(Object.values(data[0])[0]['points']['data'])
              var obj_type = Object.keys(Object.values(data[0])[0]['points']['data'])[0];
              obj_type = obj_type.substring(0, obj_type.indexOf('_'));
              obj_type = objnum2name[obj_type]
-             console.log('This HIT works with the class ' + obj_type);
 
              var objDict = VG.ObjectDictionary().get();
 
@@ -301,7 +292,6 @@
                  point = data[i][name]['points']
                  partsrc = Object.keys(point['data'])[0].split("_")
                  partsrc = partsrc[partsrc.length-1]
-                 console.log(partsrc);
                  if (partsrc == '100'){
                      num_silh++;
                  }
@@ -312,7 +302,7 @@
              }
              console.log("Percent from silh");
              console.log((num_silh/im_names.length)*100.0)
-             console.log(im_srcs);
+             //console.log(im_srcs);
              var im_canvases = [];
              var divsLoaded = 0;
              for(var i=0; i < batch_size;i++){
@@ -328,9 +318,6 @@
                  im.canvas = canvas;
 
                  im.onload = function() {
-                     //console.log('Im hxw');
-                     //console.log(this.height, this.width);
-
                      canvas = this.canvas;
                      canvas.setAttribute('style','cursor:crosshair;'); 
                      canvas.setAttribute("id", this.name); 
@@ -340,8 +327,6 @@
                      var ctx = canvas.getContext('2d');
                      ctx.drawImage(this,0,0,this.width, this.height);
                      var im_points = this.data['data']; 
-                     //console.log(Object.keys(im_points).length + ' - ' + batch_size);
-                     //console.log(im_points);
          
                      //Find the sillhouette key and choose the point
                      var keys = Object.keys(im_points);
@@ -357,7 +342,6 @@
                                break;
                            }
                           }
-                          console.log('indSilh: ' + indSilh); 
                          if(Math.round(Math.random()) == 1){ //Give 50/50 chance of being the silhouette class or the rest
                             rPartInd = indSilh; 
                          } else{
@@ -427,7 +411,7 @@
             $('#submit-btn').attr('disabled',true).addClass('hidden');
              $('#last-task').addClass('hidden');
              $('#error-div').addClass('hidden');
-              console.log("Index:\t"+idx+" / " + batch_size);
+              //console.log("Index:\t"+idx+" / " + batch_size);
              if (idx == batch_size-1) {
                  $('#last-task').removeClass('hidden');
                  if (!preview) {
@@ -484,7 +468,6 @@
                      
                      var num_images = batch_size;
                      var carosel_scroll = false;
-         
                      var carosel = new VG.Carosel(objDict, images_div, buttons_div, options_div, num_images, show,
                                       carosel_scroll);
                      carosel.enable();
