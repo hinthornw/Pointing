@@ -105,6 +105,9 @@ var VG = (function(vg) {
 
         var objId = $(activeCanvas).attr('data-obj'); 
         var partId = $(activeCanvas).attr('data-part');
+        console.log("input to dict"0;
+        console.log(objId);
+        console.log(partId);
         var objText = id2text[objId]['name']; 
         //var partText = id2text[objId]['parts'][partId];
         var partText = objText + " part [a]";
