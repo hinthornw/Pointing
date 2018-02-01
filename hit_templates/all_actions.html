@@ -246,11 +246,12 @@
          //var debug_mode = !(url_params.turkSubmitTo);
          var debug_mode = false; //url_params not on
          var batch_size = 3;
-         
+        var objnum2name = { "416" : "train",  "65" : "cat",  "2" : "aeroplane",  "34" : "bottle",  "72" : "chair",  "258" : "motorbike",  "427" : "tv/monitor",  "98" : "cow",  "45" : "bus",  "368" : "sofa",  "113" : "dog",  "308" : "potted plant",  "59" : "car",  "23" : "bicycle",  "397" : "dining table",  "25" : "bird",  "347" : "sheep",  "207" : "horse",  "284" : "person",  "31" : "boat" }
          
          function main() {
              simpleamt.setupSubmit();
              var data = simplewill.getInput(DEFAULT_INPUT);
+
              //var data = simpleamt.getInput(DEFAULT_INPUT);
              console.log('data');
              console.log(data); // Should be format [{'image_name': flattened_data_dictionary}, {}, ...]
@@ -265,6 +266,13 @@
              //}
 
              data = data['input'][0];
+            
+             console.log(Object.values(data[0]))
+             console.log(Object.values(data[0])[0]['points']['data'])
+             var obj_type = Object.keys(Object.values(data[0])[0]['points']['data'])[0];
+             obj_type = obj_type.substring(0, obj_type.indexOf('_'));
+             obj_type = objnum2name[obj_type]
+             console.log('This HIT works with the class ' + obj_type);
 
              var objDict = VG.ObjectDictionary().get();
 
@@ -537,8 +545,14 @@
                 return false;
              }
           });
-          
-                 var obj = "Object or Part";
+                 function toTitleCase(str)
+                    {
+                        return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+                    } 
+                 var obj_type_title = toTitleCase(obj_type);
+                 //var obj = "Object or Part";
+                 //var objs = "object or part";
+                 var obj = obj_type_title + " or Part of " + obj_type_title;
                  var objs = "object or part";
           $('#clsname').text(obj);
          
