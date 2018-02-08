@@ -1,9 +1,13 @@
+from __future__ import print_function
 import argparse, json
-
 from boto.mturk.connection import MTurkConnection
 from boto.mturk.qualification import *
 from jinja2 import Environment, FileSystemLoader
-
+#TODO Remove debugging
+import inspect
+def printPlus(*args):
+    print(inspect.getouterframes(inspect.currentframe())[1][2], ": ", args)
+DEBUG=printPlus 
 
 """
 A bunch of free functions that we use in all scripts.
@@ -14,7 +18,8 @@ def get_jinja_env(config):
   """
   Get a jinja2 Environment object that we can use to find templates.
   """
-  return Environment(loader=FileSystemLoader('./hit_templates'))
+  DEBUG("Getting ", config)
+  return Environment(loader=FileSystemLoader(config['template_directories'])) # './hit_templates'))
 
 
 def json_file(filename):
@@ -67,39 +72,108 @@ def get_mturk_connection(sandbox=True, aws_access_key=None,
   return MTurkConnection(host=host, **kwargs)
 
 
+#def setup_qualifications(hit_properties, mtc):
+#  """
+#  Replace some of the human-readable keys from the raw HIT properties
+#  JSON data structure with boto-specific objects.
+#  """
+#  hp = {k.lower(): v for k,v in hit_properties.items()}
+#  qual = Qualifications()
+#  if 'qualification_id' in hp and 'qualification_comparator' in hp and 'qualification_integer' in hp:
+#    comparator = hp['qualification_comparator']
+#    if comparator == '>': 
+#        c = 'GreaterThan'
+#    elif comparator == '=': 
+#        c = 'EqualTo'
+#    elif comparator == '<': 
+#        c = 'LessThan'
+#    else:
+#        print("The 'qualification comparator' is not one of the designated values ('<', '=', '>').")
+#    qual.add(Requirement(hp['qualification_id'], c, int(hp['qualification_integer']), required_to_preview = False));
+#    del hp['qualification_id']
+#    del hp['qualification_comparator']
+#    del hp['qualification_integer']
+#  if 'country' in hp:
+#    qual.add(LocaleRequirement('In',
+#      hp['country']))
+#    del hp['country']
+#
+#  if 'hits_approved' in hp:
+#    qual.add(NumberHitsApprovedRequirement('GreaterThan',
+#      hp['hits_approved']))
+#    del hp['hits_approved']
+#
+#  if 'percent_approved' in hp:
+#    qual.add(PercentAssignmentsApprovedRequirement('GreaterThan',
+#      hp['percent_approved']))
+#    del hp['percent_approved']
+#
+#  hp['qualifications'] = qual
+#  hit_properties = hp
+
+
+
 def setup_qualifications(hit_properties, mtc):
   """
   Replace some of the human-readable keys from the raw HIT properties
   JSON data structure with boto-specific objects.
   """
+  DEBUG("Setting up Qualificatons")
   qual = Qualifications()
+  #quals = [] 
   if 'qualification_id' in hit_properties and 'qualification_comparator' in hit_properties and 'qualification_integer' in hit_properties:
-    comparator = hit_properties['qualification_comparator']
-    if comparator == '>': 
-        c = 'GreaterThan'
-    elif comparator == '=': 
-        c = 'EqualTo'
-    elif comparator == '<': 
-        c = 'LessThan'
-    else:
-        print "The 'qualification comparator' is not one of the designated values ('<', '=', '>')."
-    qual.add(Requirement(hit_properties['qualification_id'], c, int(hit_properties['qualification_integer']), required_to_preview = False));
-    del hit_properties['qualification_id']
-    del hit_properties['qualification_comparator']
-    del hit_properties['qualification_integer']
-  if 'country' in hit_properties:
-    qual.add(LocaleRequirement('In',
-      hit_properties['country']))
-    del hit_properties['country']
+     DEBUG("Setting qualification_id")
+     qual = {}
+     comparator = hit_properties['qualification_comparator']
+     if comparator == '>': 
+         c = 'GreaterThan'
+     elif comparator == '=': 
+         c = 'EqualTo'
+     elif comparator == '<': 
+         c = 'LessThan'
+     else:
+         print("The 'qualification comparator' is not one of the designated values ('<', '=', '>').")
+     qual.add(Requirement(hit_properties['qualification_id'], c, int(hit_properties['qualification_integer']), required_to_preview = False));
+     #qual['QualificationTypeId'] =  hit_properties['qualification_id']
+     #qual['Comparator'] =  c
+     #qual['IntegerValues'] = hit_properties['qualification_integer']
+     #qual['RequiredToPreview'] =  False 
+     #quals.append(qual)
+     del hit_properties['qualification_id']
+     del hit_properties['qualification_comparator']
+     del hit_properties['qualification_integer']
+    
+  if 'Country' in hit_properties:
+     DEBUG("Setting country")
+     qual.add(LocaleRequirement('In', hit_properties['Country']))
+     #qual = {}
+     #qual['QualificationTypeId'] = '00000000000000000071'
+     #qual['Comparator'] = 'EqualTo'
+     #qual['LocaleValues'] = [{'Country': hit_properties['Country']}]
+     #quals.append(qual)
+     del hit_properties['Country']
 
   if 'hits_approved' in hit_properties:
-    qual.add(NumberHitsApprovedRequirement('GreaterThan',
-      hit_properties['hits_approved']))
-    del hit_properties['hits_approved']
+     DEBUG("Setting hits_approved")
+     qual.add(NumberHitsApprovedRequirement('GreaterThan',  hit_properties['hits_approved']))
+     #qual = {}
+     #qual['QualificationTypeId'] = '00000000000000000040'
+     #qual['Comparator'] = 'GreaterThan'
+     #qual['IntegerValues'] = [hit_properties['hits_approved']]
+     #qual["NumberHitsApprovedRequirement"] =  {"GreaterThan": hit_properties['hits_approved']}
+     #qual["Worker_NumberHITsApproved"] =  {"GreaterThan": hit_properties['hits_approved']}
+     #quals.append(qual)
+     del hit_properties['hits_approved']
 
   if 'percent_approved' in hit_properties:
-    qual.add(PercentAssignmentsApprovedRequirement('GreaterThan',
-      hit_properties['percent_approved']))
-    del hit_properties['percent_approved']
-
+     qual.add(PercentAssignmentsApprovedRequirement('GreaterThan', hit_properties['percent_approved']))
+     #qual = {}
+     #qual['QualificationTypeId'] = '000000000000000000L0'
+     #qual['Comparator'] = 'GreaterThan'
+     #qual['IntegerValues'] = [hit_properties['percent_approved']]
+     #qual['PercentAssignmentsApprovedRequirement'] = hit_properties['percent_approved']
+     #qual['Worker_PercentAssignmentsApproved'] = hit_properties['percent_approved']
+     #quals.append(qual)
+     del hit_properties['percent_approved']
   hit_properties['qualifications'] = qual
+  #hit_properties['qualifications'] = quals

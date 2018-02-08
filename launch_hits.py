@@ -1,5 +1,6 @@
 from __future__ import print_function
-import argparse, json
+import argparse
+import json
 from boto.mturk.price import Price
 from boto.mturk.question import HTMLQuestion
 from boto.mturk.connection import MTurkRequestError
@@ -9,86 +10,91 @@ import simpleamt
 import sys
 
 import inspect
+
+
 def printPlus(*args):
     print(inspect.getouterframes(inspect.currentframe())[1][2], ": ", args)
-DEBUG=printPlus 
-MAXHITS = 10
+
+
+DEBUG = printPlus
+# Motorbike 20-40
+# Dog 40-70
+# Person 40-70
+MINHITS = 40
+MAXHITS = 60
 
 if __name__ == '__main__':
-  parser = argparse.ArgumentParser(parents=[simpleamt.get_parent_parser()])
-  parser.add_argument('--hit_properties_file', type=argparse.FileType('r'))
-  parser.add_argument('--html_template')
-  parser.add_argument('--input_json_file', type=argparse.FileType('r'))
-  parser.add_argument('--input_cache', type=argparse.FileType('r'))
-  args = parser.parse_args()
+    parser = argparse.ArgumentParser(parents=[simpleamt.get_parent_parser()])
+    parser.add_argument('--hit_properties_file', type=argparse.FileType('r'))
+    parser.add_argument('--html_template')
+    parser.add_argument('--input_json_file', type=argparse.FileType('r'))
+    parser.add_argument('--input_cache', type=argparse.FileType('r'))
+    args = parser.parse_args()
 
-  im_names = [] 
-  if args.input_cache is not None:
-      #DEBUG("Cache: {}".format(args.input_cache))
-      for i, line in enumerate(args.input_cache):
-          im_names.append(json.loads(line.strip()))
-      #im_names = json.load(args.input_cache)
+    im_names = []
+    if args.input_cache is not None:
+        #DEBUG("Cache: {}".format(args.input_cache))
+        for i, line in enumerate(args.input_cache):
+            im_names.append(json.loads(line.strip()))
+        #im_names = json.load(args.input_cache)
 
-  input_json_file = []
-  for i, line in enumerate(args.input_json_file):
-      input_json_file.append(line)
+    input_json_file = []
+    for i, line in enumerate(args.input_json_file):
+        input_json_file.append(line)
 
-  mtc = simpleamt.get_mturk_connection_from_args(args)
-  #DEBUG("MTurk: \t{}".format(mtc))
+    mtc = simpleamt.get_mturk_connection_from_args(args)
 
-  hit_properties = json.load(args.hit_properties_file)
-  #DEBUG("Before ", hit_properties)
-  hit_properties['reward'] = Price(hit_properties['reward'])
-  #hit_properties['Reward'] = str(hit_properties['Reward']).decode('utf-8')
-  simpleamt.setup_qualifications(hit_properties, mtc)
-  #DEBUG("After", hit_properties)
+    hit_properties = json.load(args.hit_properties_file)
+    hit_properties['reward'] = Price(hit_properties['reward'])
+    #hit_properties['Reward'] = str(hit_properties['Reward']).decode('utf-8')
+    simpleamt.setup_qualifications(hit_properties, mtc)
+    #DEBUG("After", hit_properties)
 
-  frame_height = hit_properties.pop('frame_height')
-  env = simpleamt.get_jinja_env(args.config)
-  #DEBUG("environment\n{}".format(env.loader.searchpath))
-  #DEBUG("Template:\t{}".format(args.html_template))
-  template = env.get_template(args.html_template)
+    frame_height = hit_properties.pop('frame_height')
+    env = simpleamt.get_jinja_env(args.config)
+    template = env.get_template(args.html_template)
 
-  if args.hit_ids_file is None:
-    DEBUG('Need to input a hit_ids_file')
-    sys.exit()
-  DEBUG(args.hit_ids_file, args.input_cache)
-  if os.path.isfile(args.hit_ids_file):
-    DEBUG('hit_ids_file already exists')
-    sys.exit()
+    if args.hit_ids_file is None:
+        DEBUG('Need to input a hit_ids_file')
+        sys.exit()
+    DEBUG(args.hit_ids_file, args.input_cache)
+    if os.path.isfile(args.hit_ids_file):
+        DEBUG('hit_ids_file already exists')
+        sys.exit()
 
-
-  with open(args.hit_ids_file, 'w') as hit_ids_file:
-    #for i, line in enumerate(args.input_json_file):
-    for i, line in enumerate(input_json_file):
-      hit_input = json.loads(line.strip())
-      # In a previous version I removed all single quotes from the json dump.
-      # TODO: double check to see if this is still necessary.
-      template_params = { 'input': json.dumps(hit_input) }
-      if len(im_names) > 0:
-        template_params['im_names'] = json.dumps(im_names[i]) #json.dumps(im_names)
-      html = template.render(template_params)
-      html_question = HTMLQuestion(html, frame_height)
-      hit_properties['question'] = html_question
-      DEBUG('Rendering Template {}'.format(i))
-      # Render out html
-      #with open('rendered_template.html', 'w') as f:
-      #  f.write(html)
-
-      # This error handling is kinda hacky.
-      # TODO: Do something better here.
-      launched = False
-      while not launched:
-        try:
-          boto_hit = mtc.create_hit(**hit_properties)
-          launched = True
-        except MTurkRequestError as e:
-          DEBUG(e)
-      hit_id = boto_hit[0].HITId
-      hit_ids_file.write('%s\n' % hit_id)
-      DEBUG('Launched HIT ID: %s, %d' % (hit_id, i + 1))
-      if i > MAXHITS:
-          DEBUG("Debugging mode ON. Limiting HIT number to {}".format(MAXHITS))
-          break
-
-
+    with open(args.hit_ids_file, 'w') as hit_ids_file:
+        # for i, line in enumerate(args.input_json_file):
+        print("Launching {} HITS".format(len(input_json_file)))
+        for i, line in enumerate(input_json_file):
+            if i < MINHITS:
+                continue
+            hit_input = json.loads(line.strip())
+            # In a previous version I removed all single quotes from the json dump.
+            # TODO: double check to see if this is still necessary.
+            template_params = {'input': json.dumps(hit_input)}
+            if len(im_names) > 0:
+                template_params['im_names'] = json.dumps(
+                    im_names[i])  # json.dumps(im_names)
+            html = template.render(template_params)
+            html_question = HTMLQuestion(html, frame_height)
+            hit_properties['question'] = html_question
+            #DEBUG('Rendering Template {}'.format(i))
+            # with open('rendered_template{}.html'.format(i), 'w+') as f:
+            #  f.write(html)
+            # This error handling is kinda hacky.
+            # TODO: Do something better here.
+            launched = False
+            while not launched:
+                try:
+                    boto_hit = mtc.create_hit(**hit_properties)
+                    launched = True
+                except MTurkRequestError as e:
+                    DEBUG(e)
+            hit_id = boto_hit[0].HITId
+            hit_ids_file.write('%s\n' % hit_id)
+            DEBUG('Launched HIT ID: %s, %d' % (hit_id, i + 1))
+            if i > MAXHITS:
+                DEBUG(
+                    "Debugging mode ON. Limiting HIT number to {}".format(
+                        MAXHITS - MINHITS))
+                break

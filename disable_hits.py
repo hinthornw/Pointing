@@ -1,8 +1,12 @@
 import argparse
-
+import os
+import sys
 import simpleamt
 
 if __name__ == '__main__':
+
+  abs_path = os.path.dirname(os.path.abspath(__file__))
+  print("FILE:\t{}".format(abs_path))
   parser = argparse.ArgumentParser(parents=[simpleamt.get_parent_parser()],
               description="Delete HITs")
   parser.add_argument('--all', action='store_true', default=False)
@@ -19,7 +23,8 @@ if __name__ == '__main__':
     for hit in mtc.get_all_hits():
       hit_ids.append(hit.HITId)
   else:
-    with open(args.hit_ids_file, 'r') as f:
+    print("File path:\t", os.path.join(abs_path, args.hit_ids_file))
+    with open(os.path.join(abs_path, args.hit_ids_file), 'r') as f:
       hit_ids = [line.strip() for line in f]
 
   print ('This will delete %d HITs with sandbox=%s'
