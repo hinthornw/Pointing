@@ -7,6 +7,11 @@ var VG = (function(vg) {
         ctx.beginPath();
         ctx.arc(point[1], point[0], pointSize, 0, Math.PI * 2, true);
         ctx.fill();
+        // Fill in a ring
+        ctx.strokeStyle = '#42f44b';
+        var circleSize = 2;
+        ctx.arc(point[1], point[0], circleSize, 0, 2* Math.PI);
+        ctx.stroke()
 
         //Surround in a ring
         //ctx.strokeStyle = '#42f44b';
