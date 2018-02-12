@@ -43,7 +43,7 @@ var VG = (function(vg) {
     var part = function(part_button)            {if (enabled) toggle_button(part_button);} 
     var entObj = function(obj_button)           {if (enabled) toggle_button(obj_button);};
     var imp2Tell = function(impossible_button)  {if (enabled) toggle_button(impossible_button);};
-    //var notPresent = function(na_button)        {if (enabled) toggle_button(na_button);};
+    var notPresent = function(na_button)        {if (enabled) toggle_button(na_button);};
 
     // First declare yucky global variables 
     var ans_buttons, part_button, obj_button, impossible_button, na_button, activeCanvas, bNextEnabled;
@@ -97,6 +97,10 @@ var VG = (function(vg) {
             turnOff(b);
         }
     }
+      function toTitleCase(str)
+        {
+            return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+        }
 
     //Create a set of divs for the option buttons
     var optDivs = [];
@@ -107,8 +111,8 @@ var VG = (function(vg) {
         var partId = $(activeCanvas).attr('data-part');
         var objText = id2text[objId]['name']; 
         //var partText = id2text[objId]['parts'][partId];
-        var partText = objText + " part [a]";
-        objText = objText + ' [s]';
+        var partText = toTitleCase(objText + " part [a]");
+        objText = toTitleCase('Whole ' + objText + ' [s]');
         if(typeof(partText)=== "undefined"){
             console.log('Part not found. Id number: ' + partId);
             console.log('Object id and number: ' + objId + ' - ' + objText);
@@ -128,20 +132,20 @@ var VG = (function(vg) {
                                        .addClass('btn btn-default btn-lg padded')
                                        .appendTo(oDiv);
         impossible_button = $('<button>').prop('disabled', true)
-                                       .text('Impossible to tell [d]')
+                                       .text('Impossible to Tell [d]')
                                        .attr('id', '-1')
                                        .addClass('btn btn-default btn-lg padded')
                                        .appendTo(oDiv);
-        //na_button = $('<button>').prop('disabled', true)
-        //                               .text('N/A [f]')
-        //                               .attr('id', '-2')
-        //                               .addClass('btn btn-default btn-lg padded')
-        //                               .appendTo(oDiv);
+        na_button = $('<button>').prop('disabled', true)
+                                       .text('Other [f]')
+                                       .attr('id', '-2')
+                                       .addClass('btn btn-default btn-lg padded')
+                                       .appendTo(oDiv);
         part_button[0].onclick = function() { /*console.log('Clicked part'); */if (enabled) toggle_button(part_button); /*console.log('a or object part chosen');*/};
         obj_button[0].onclick = function() { /*console.log('Clicked obj');*/  if (enabled)  toggle_button(obj_button); /*console.log('s or entire object chosen');*/};
         impossible_button[0].onclick = function() { /*console.log('Clicked impossible');*/ if (enabled)  toggle_button(impossible_button); /* console.log('d or impossible to tell chosen');*/};
-        //na_button[0].onclick = function() { /* console.log('Clicked na');*/ if (enabled)  toggle_button(na_button);/* console.log('f or N/A chosen');*/};
-        ans_buttons = [part_button[0], obj_button[0], impossible_button[0]]; //, na_button[0]];
+        na_button[0].onclick = function() { /* console.log('Clicked na');*/ if (enabled)  toggle_button(na_button);/* console.log('f or N/A chosen');*/};
+        ans_buttons = [part_button[0], obj_button[0], impossible_button[0], na_button[0]];
 
         deactivate_buttons();
     }
@@ -170,7 +174,7 @@ var VG = (function(vg) {
     partKeys = [65];
     objKeys = [83]; // s is whole object
     impKeys = [68];// d is impossible to tell
-    //naKeys = [70]; // f is none of the above
+    naKeys = [70]; // f is none of the above
     $(document.documentElement).keyup(function(e) {
 	    if (!keyboard_enabled || !enabled) return;
 	    if ($.inArray(e.keyCode, prevKeys) !== -1) prev();
@@ -178,7 +182,7 @@ var VG = (function(vg) {
 	    if ($.inArray(e.keyCode, partKeys) !== -1) part(part_button); 
 	    if ($.inArray(e.keyCode, objKeys) !== -1) entObj(obj_button); 
 	    if ($.inArray(e.keyCode, impKeys) !== -1) imp2Tell(impossible_button); 
-	    //if ($.inArray(e.keyCode, naKeys) !== -1) notPresent(na_button); 
+	    if ($.inArray(e.keyCode, naKeys) !== -1) notPresent(na_button); 
 	});
 
     that.enable = function() {
