@@ -64,6 +64,7 @@ var VG = (function(vg) {
     function getResponse() {
       for(var i=0; i < ans_buttons.length; i++) {
             var b = ans_buttons[i]; 
+            console.log(b);
             if(b.getAttribute('data-active') == 'true') { return b.id;}
       }
         return 'NA';
@@ -141,10 +142,10 @@ var VG = (function(vg) {
                                        .attr('id', '-2')
                                        .addClass('btn btn-default btn-lg padded')
                                        .appendTo(oDiv);
-        part_button[0].onclick = function() { /*console.log('Clicked part'); */if (enabled) toggle_button(part_button); /*console.log('a or object part chosen');*/};
-        obj_button[0].onclick = function() { /*console.log('Clicked obj');*/  if (enabled)  toggle_button(obj_button); /*console.log('s or entire object chosen');*/};
-        impossible_button[0].onclick = function() { /*console.log('Clicked impossible');*/ if (enabled)  toggle_button(impossible_button); /* console.log('d or impossible to tell chosen');*/};
-        na_button[0].onclick = function() { /* console.log('Clicked na');*/ if (enabled)  toggle_button(na_button);/* console.log('f or N/A chosen');*/};
+        part_button[0].onclick = function() { /*console.log('Clicked part'); */if (enabled) toggle_button(part_button);};
+        obj_button[0].onclick = function() { /*console.log('Clicked obj');*/  if (enabled)  toggle_button(obj_button);};
+        impossible_button[0].onclick = function() { /*console.log('Clicked impossible');*/ if (enabled)  toggle_button(impossible_button);};
+        na_button[0].onclick = function() { /* console.log('Clicked na');*/ if (enabled)  toggle_button(na_button);};
         ans_buttons = [part_button[0], obj_button[0], impossible_button[0], na_button[0]];
 
         deactivate_buttons();
@@ -153,7 +154,6 @@ var VG = (function(vg) {
     // Response choice
     var response = "";
 
-    //var ans_buttons = [part_button, obj_button, impossible_button, na_button];
     var current_idx = 0;
 
     // Handlers for selecting next or previous pane
@@ -288,6 +288,7 @@ var VG = (function(vg) {
         enableNext();
     }
     function toggle_button(b) {
+        console.log(b);
         if (b.getAttribute('data-active') == 'false'){
             select_button(b);
         } else {deactivate_buttons();}
