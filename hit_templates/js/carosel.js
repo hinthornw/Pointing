@@ -229,7 +229,7 @@ var VG = (function(vg) {
       part_button = ans_buttons[0];
       obj_button = ans_buttons[1];
       impossible_button = ans_buttons[2];
-      //na_button = ans_buttons[3];
+      na_button = ans_buttons[3];
       if (scroll) {
         show_callback(new_idx, canvases[new_idx], cb);
       } else {
