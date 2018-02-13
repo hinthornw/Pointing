@@ -64,7 +64,6 @@ var VG = (function(vg) {
     function getResponse() {
       for(var i=0; i < ans_buttons.length; i++) {
             var b = ans_buttons[i]; 
-            console.log(b);
             if(b.getAttribute('data-active') == 'true') { return b.id;}
       }
         return 'NA';
@@ -142,10 +141,10 @@ var VG = (function(vg) {
                                        .attr('id', '-2')
                                        .addClass('btn btn-default btn-lg padded')
                                        .appendTo(oDiv);
-        part_button[0].onclick = function() { /*console.log('Clicked part'); */if (enabled) toggle_button(part_button);};
-        obj_button[0].onclick = function() { /*console.log('Clicked obj');*/  if (enabled)  toggle_button(obj_button);};
-        impossible_button[0].onclick = function() { /*console.log('Clicked impossible');*/ if (enabled)  toggle_button(impossible_button);};
-        na_button[0].onclick = function() { /* console.log('Clicked na');*/ if (enabled)  toggle_button(na_button);};
+        part_button[0].onclick = function() { if (enabled) toggle_button(part_button);};
+        obj_button[0].onclick = function() { if (enabled)  toggle_button(obj_button);};
+        impossible_button[0].onclick = function() {  if (enabled)  toggle_button(impossible_button);};
+        na_button[0].onclick = function() {  if (enabled)  toggle_button(na_button);};
         ans_buttons = [part_button[0], obj_button[0], impossible_button[0], na_button[0]];
 
         deactivate_buttons();
@@ -268,7 +267,6 @@ var VG = (function(vg) {
     //highlight button
     function turnOn(b) {
         b.setAttribute('data-active', 'true');
-        console.log(b.id);
         response = b.id;
         b.style.background='#34A7C1';
         b.style.text='#fff';
@@ -288,7 +286,6 @@ var VG = (function(vg) {
         enableNext();
     }
     function toggle_button(b) {
-        console.log(b);
         if (b.getAttribute('data-active') == 'false'){
             select_button(b);
         } else {deactivate_buttons();}
