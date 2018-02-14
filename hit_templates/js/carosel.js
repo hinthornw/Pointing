@@ -54,6 +54,7 @@ var VG = (function(vg) {
                                    .addClass('btn btn-default btn-lg padded')
                                    .appendTo(button_div);
     var counter_span = $('<span>').addClass('h3 padded vcenter')
+                                  .setAttribute('display', 'initial')
                                   .appendTo(button_div);
     var next_button = $('<button>').prop('disabled', true)
                                    .text('Next (right arrow)')
