@@ -20,7 +20,7 @@ var VG = (function(vg) {
         //Surround in a ring
         //ctx.strokeStyle = '#42f44b';
         ctx.strokeStyle =  "#ff2626"; 
-        var circleSize = pointSize+pointSize*2;
+        var circleSize = pointSize*3;
         ctx.arc(x, y, circleSize, 0, 2* Math.PI);
         ctx.stroke()
         //console.log("Drew point (" + point + ") ");
