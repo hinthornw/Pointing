@@ -13,9 +13,10 @@ var VG = (function(vg) {
 
         // Fill in a ring
         //ctx.strokeStyle = '#42f44b';
-        //var circleSize = 2;
-        //ctx.arc(x, y, circleSize, 0, 2* Math.PI);
-        //ctx.stroke()
+        ctx.fillStyle = "#42f44b"; //  color
+        var circleSize = pointSize/2;
+        ctx.arc(x, y, circleSize, 0, 2* Math.PI);
+        ctx.stroke()
 
         //Surround in a ring
         //ctx.strokeStyle = '#42f44b';
