@@ -12,6 +12,7 @@ var VG = (function(vg) {
         ctx.fill();
 
         // Fill in a ring
+        ctx.beginPath();
         ctx.strokeStyle = '#42f44b';
         ctx.fillStyle = "#42f44b"; //  color
         var circleSize = pointSize/2;
@@ -20,6 +21,7 @@ var VG = (function(vg) {
 
         //Surround in a ring
         //ctx.strokeStyle = '#42f44b';
+        ctx.beginPath();
         ctx.strokeStyle =  "#ff2626"; 
         var circleSize = pointSize*3;
         ctx.arc(x, y, circleSize, 0, 2* Math.PI);
