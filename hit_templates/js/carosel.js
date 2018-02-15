@@ -29,12 +29,12 @@ var VG = (function(vg) {
    *   the keyboard shortcuts. They start enabled, but only work if the carosel
    *   as a whole is also enabled.
    */
-  vg.Carosel = function(id2text, container_div, button_div, options_div, num_panes,
+  vg.Carosel = function(canvases, id2text, container_div, button_div, options_div, num_panes,
                         show_callback, should_scroll) {
     var that = (this === vg ? {} : this);
 
       // Return all canvases
-      var canvases = container_div[0].getElementsByTagName('canvas');
+      //var canvases = container_div[0].getElementsByTagName('canvas');
 
     var enabled = false;
     if (typeof(should_scroll) === 'undefined') should_scroll = false;
