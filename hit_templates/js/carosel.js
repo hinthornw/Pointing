@@ -182,7 +182,7 @@ var VG = (function(vg) {
     objKeys = [83]; // s is whole object
     impKeys = [68];// d is impossible to tell
     naKeys = [70]; // f is none of the above
-    colorKeys = [32]; // f is none of the above
+    colorKeys = [84]; // f is none of the above
     $(document.documentElement).keyup(function(e) {
 	    if (!keyboard_enabled || !enabled) return;
 	    if ($.inArray(e.keyCode, prevKeys) !== -1) prev();
