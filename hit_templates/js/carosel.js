@@ -163,14 +163,17 @@ var VG = (function(vg) {
         console.log('toggleColor');
         console.log(canvas.style);
         if (canvas.style.WebkitFilter ==  "grayscale(0%)") {
-            console.log('Color to gray');
-            canvas.style.filter = "gray";
-            canvas.style.WebkitFilter =  "grayscale(100%)";
+            canvas.classList.remove("color");
+            canvas.classList.add("grayscale");
+            //canvas.style.filter = "gray";
+            //canvas.style.WebkitFilter =  "grayscale(100%)";
             //canvas.style.WebkitTransition = "all .4s ease-in-out";
         } else{
             console.log('Gray to color');
-            canvas.style.filter = "none";
-            canvas.style.WebkitFilter =  "grayscale(0%)";
+            canvas.classList.remove("grayscale");
+            canvas.classList.add("color");
+            //canvas.style.filter = "none";
+            //canvas.style.WebkitFilter =  "grayscale(0%)";
             //canvas.style.WebkitTransform = "scale(1.00)";
         }
     }
