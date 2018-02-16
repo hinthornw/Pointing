@@ -161,7 +161,7 @@ var VG = (function(vg) {
     var prev = function() { if (enabled) select_pane(current_idx - 1, should_scroll); };
     var toggleColor = function(canvas) { 
         console.log(canvas.classList);
-        if (canvas[0].classList.includes("color")) {
+        if (canvas.classList.includes("color")) {
             console.log('Colort to Gray');
             canvas.classList.remove("color");
             canvas.classList.add("grayscale");
