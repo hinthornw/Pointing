@@ -159,6 +159,13 @@ var VG = (function(vg) {
     // Handlers for selecting next or previous pane
     var next = function() { if (enabled && bNextEnabled) select_pane(current_idx + 1, should_scroll); };
     var prev = function() { if (enabled) select_pane(current_idx - 1, should_scroll); };
+    var toggleColor = function(canvas) { 
+        console.log('toggleColor');
+        console.log(canvas.style);
+        canvas.style.filter = none;
+        canvas.style.WebkitFilter =  "grayscale(0%)";
+        canvas.style.WebkitTransform = "scale(1.00)";
+    }
 
 	     
     next_button.click(next);
@@ -175,6 +182,7 @@ var VG = (function(vg) {
     objKeys = [83]; // s is whole object
     impKeys = [68];// d is impossible to tell
     naKeys = [70]; // f is none of the above
+    colorKeys = [32]; // f is none of the above
     $(document.documentElement).keyup(function(e) {
 	    if (!keyboard_enabled || !enabled) return;
 	    if ($.inArray(e.keyCode, prevKeys) !== -1) prev();
@@ -183,6 +191,8 @@ var VG = (function(vg) {
 	    if ($.inArray(e.keyCode, objKeys) !== -1) entObj(obj_button); 
 	    if ($.inArray(e.keyCode, impKeys) !== -1) imp2Tell(impossible_button); 
 	    if ($.inArray(e.keyCode, naKeys) !== -1) notPresent(na_button); 
+	    if ($.inArray(e.keyCode, colorKeys) !== -1) toggleColor(activeCanvas); 
+
 	});
 
     that.enable = function() {
