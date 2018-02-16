@@ -32,6 +32,7 @@ var VG = (function(vg) {
   vg.Carosel = function(canvases, id2text, container_div, button_div, options_div, num_panes,
                         show_callback, should_scroll) {
     var that = (this === vg ? {} : this);
+      console.log(canvases);
 
       // Return all canvases
       //var canvases = container_div[0].getElementsByTagName('canvas');
