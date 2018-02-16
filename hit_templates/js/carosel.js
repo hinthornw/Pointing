@@ -113,7 +113,7 @@ var VG = (function(vg) {
         var objText = id2text[objId]['name']; 
         //var partText = id2text[objId]['parts'][partId];
         var partText = toTitleCase(objText + " part [a]");
-        objText = toTitleCase('Whole ' + objText + ' [s]');
+        //objText = toTitleCase('Whole ' + objText + ' [s]');
         if(typeof(partText)=== "undefined"){
             console.log('Part not found. Id number: ' + partId);
             console.log('Object id and number: ' + objId + ' - ' + objText);
@@ -128,7 +128,7 @@ var VG = (function(vg) {
                                        .addClass('btn btn-default btn-lg padded')
                                        .appendTo(oDiv);
         obj_button = $('<button>').prop('disabled', true)
-                                       .text(objText)
+                                       .text(toTitleCase('Whole ' + objText + ' [s]'))
                                        .attr('id', String(objId))
                                        .addClass('btn btn-default btn-lg padded')
                                        .appendTo(oDiv);
@@ -138,7 +138,7 @@ var VG = (function(vg) {
                                        .addClass('btn btn-default btn-lg padded')
                                        .appendTo(oDiv);
         na_button = $('<button>').prop('disabled', true)
-                                       .text('Other [f]')
+                                       .text(toTitleCase('Not ' + objText + ' [f]')
                                        .attr('id', '-2')
                                        .addClass('btn btn-default btn-lg padded')
                                        .appendTo(oDiv);
