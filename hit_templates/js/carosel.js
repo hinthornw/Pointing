@@ -160,9 +160,9 @@ var VG = (function(vg) {
     var next = function() { if (enabled && bNextEnabled) select_pane(current_idx + 1, should_scroll); };
     var prev = function() { if (enabled) select_pane(current_idx - 1, should_scroll); };
     var toggleColor = function(canvas) { 
-        console.log('toggleColor');
         console.log(canvas.style);
         if (canvas.style.WebkitFilter ==  "grayscale(0%)") {
+            console.log('Colort to Gray');
             canvas.classList.remove("color");
             canvas.classList.add("grayscale");
             //canvas.style.filter = "gray";
