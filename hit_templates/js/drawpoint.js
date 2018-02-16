@@ -1,11 +1,13 @@
 var VG = (function(vg) {
 
-    vg.drawPoint= function(ctx, point, wStart, hStart, pointSize) {
+    vg.drawPoint= function(ctx, point, wStart, hStart, scale, pointSize) {
         ctx.fillStyle = "#ff2626"; // Red color
         //var pointSize = 3.5;
         
-        x = point[1]+wStart;
-        y = point[0]+hStart;
+        x = (point[1]+wStart)*scale;
+        y = (point[0]+hStart)*scale;
+        console.log(point[1], point[0]);
+        console.log(x,y);
 
         ctx.beginPath();
         ctx.arc(x, y, pointSize, 0, Math.PI * 2, true);
