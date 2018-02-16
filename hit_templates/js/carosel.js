@@ -138,7 +138,7 @@ var VG = (function(vg) {
                                        .addClass('btn btn-default btn-lg padded')
                                        .appendTo(oDiv);
         na_button = $('<button>').prop('disabled', true)
-                                       .text(toTitleCase('Not ' + objText + ' [f]')
+                                       .text(toTitleCase('Not ' + objText + ' [f]'))
                                        .attr('id', '-2')
                                        .addClass('btn btn-default btn-lg padded')
                                        .appendTo(oDiv);
