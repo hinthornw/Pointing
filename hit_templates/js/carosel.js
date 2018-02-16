@@ -162,9 +162,17 @@ var VG = (function(vg) {
     var toggleColor = function(canvas) { 
         console.log('toggleColor');
         console.log(canvas.style);
-        canvas.style.filter = "none";
-        canvas.style.WebkitFilter =  "grayscale(0%)";
-        canvas.style.WebkitTransform = "scale(1.00)";
+        if (canvas.style.WebkitFilter ==  "grayscale(0%)") {
+            console.log('Color to gray');
+            canvas.style.filter = "gray";
+            canvas.style.WebkitFilter =  "grayscale(100%)";
+            //canvas.style.WebkitTransition = "all .4s ease-in-out";
+        } else{
+            console.log('Gray to color');
+            canvas.style.filter = "none";
+            canvas.style.WebkitFilter =  "grayscale(0%)";
+            //canvas.style.WebkitTransform = "scale(1.00)";
+        }
     }
 
 	     
