@@ -6,8 +6,8 @@ var VG = (function(vg) {
         
         x = (point[1]+wStart)*scale;
         y = (point[0]+hStart)*scale;
-        console.log(point[1], point[0]);
-        console.log(x,y);
+        //console.log(point[1], point[0]);
+        //console.log(x,y);
 
         ctx.beginPath();
         ctx.arc(x, y, pointSize, 0, Math.PI * 2, true);
