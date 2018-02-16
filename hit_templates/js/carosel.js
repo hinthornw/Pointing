@@ -162,7 +162,7 @@ var VG = (function(vg) {
     var toggleColor = function(canvas) { 
         console.log('toggleColor');
         console.log(canvas.style);
-        canvas.style.filter = none;
+        canvas.style.filter = "none";
         canvas.style.WebkitFilter =  "grayscale(0%)";
         canvas.style.WebkitTransform = "scale(1.00)";
     }
