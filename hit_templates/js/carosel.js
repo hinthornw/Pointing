@@ -214,12 +214,14 @@ var VG = (function(vg) {
       // Hide all canvases 
       for (var i = 0; i < canvases.length; i++) {
         $(canvases[i]).hide();
+        $(canvases[i]).parent().hide();
         $(point_canvases[i]).hide();
         optDivs[i].hide();
       }
 
       // Show the proper div and call the callback
       $(canvases[new_idx]).show();
+      $(canvases[new_idx]).parent().show();
       $(point_canvases[new_idx]).show();
       //$(canvases[new_idx]).parentElement.show();
     
