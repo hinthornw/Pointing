@@ -29,10 +29,9 @@ var VG = (function(vg) {
    *   the keyboard shortcuts. They start enabled, but only work if the carosel
    *   as a whole is also enabled.
    */
-  vg.Carosel = function(canvases, id2text, container_div, button_div, options_div, num_panes,
+  vg.Carosel = function(canvases,point_canvases, id2text, container_div, button_div, options_div, num_panes,
                         show_callback, should_scroll) {
     var that = (this === vg ? {} : this);
-      console.log(canvases);
 
       // Return all canvases
       //var canvases = container_div[0].getElementsByTagName('canvas');
@@ -47,7 +46,7 @@ var VG = (function(vg) {
     var notPresent = function(na_button)        {if (enabled) toggle_button(na_button);};
 
     // First declare yucky global variables 
-    var ans_buttons, part_button, obj_button, impossible_button, na_button, activeCanvas, bNextEnabled;
+    var ans_buttons, part_button, obj_button, impossible_button, na_button, activeCanvas, activePointCanvas, bNextEnabled;
 
     // Create buttons
     var prev_button = $('<button>').prop('disabled', true)
@@ -107,6 +106,7 @@ var VG = (function(vg) {
     var optDivs = [];
     for (var i = 0; i < num_panes; i++) {
         activeCanvas = canvases[i]; 
+        activePointCanvas = point_canvases[i];
 
         var objId = $(activeCanvas).attr('data-obj'); 
         var partId = $(activeCanvas).attr('data-part');
@@ -214,13 +214,18 @@ var VG = (function(vg) {
       // Hide all canvases 
       for (var i = 0; i < canvases.length; i++) {
         $(canvases[i]).hide();
+        $(point_canvases[i]).hide();
         optDivs[i].hide();
       }
 
       // Show the proper div and call the callback
       $(canvases[new_idx]).show();
+      $(point_canvases[new_idx]).show();
+      //$(canvases[new_idx]).parentElement.show();
+    
       optDivs[new_idx].show();
       activeCanvas = canvases[new_idx];
+      activePointCanvas = point_canvases[new_idx];
 
       //Expose buttons
       var optDiv = optDivs[new_idx][0];
