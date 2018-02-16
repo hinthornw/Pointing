@@ -162,7 +162,7 @@ var VG = (function(vg) {
     var toggleColor = function(canvas) { 
         console.log(canvas)
         console.log(canvas[0].classList);
-        if (canvas.classList.includes("color")) {
+        if (canvas.classList.contains("color")) {
             console.log('Colort to Gray');
             canvas.classList.remove("color");
             canvas.classList.add("grayscale");
