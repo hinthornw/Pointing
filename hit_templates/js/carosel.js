@@ -29,6 +29,7 @@ var VG = (function(vg) {
    *   the keyboard shortcuts. They start enabled, but only work if the carosel
    *   as a whole is also enabled.
    */
+
   vg.Carosel = function(canvases,point_canvases, id2text, container_div, button_div, options_div, num_panes,
                         show_callback, should_scroll) {
     var that = (this === vg ? {} : this);
@@ -161,19 +162,11 @@ var VG = (function(vg) {
     var prev = function() { if (enabled) select_pane(current_idx - 1, should_scroll); };
     var toggleColor = function(canvas) { 
         if (canvas.classList.contains("color")) {
-            console.log('Colort to Gray');
             canvas.classList.remove("color");
             canvas.classList.add("grayscale");
-            //canvas.style.filter = "gray";
-            //canvas.style.WebkitFilter =  "grayscale(100%)";
-            //canvas.style.WebkitTransition = "all .4s ease-in-out";
         } else{
-            console.log('Gray to color');
             canvas.classList.remove("grayscale");
             canvas.classList.add("color");
-            //canvas.style.filter = "none";
-            //canvas.style.WebkitFilter =  "grayscale(0%)";
-            //canvas.style.WebkitTransform = "scale(1.00)";
         }
     }
 

@@ -20,8 +20,13 @@ var VG = (function(vg) {
         //var bbox_drawer = new VG.PointDrawer(drawer_div,image_url,null,bbox_drawer_options);
         var timer = new VG.Timer();
         that.GetAnswerIfValid = function () {
+            var ans = task_input.getAnswer();
+            var correct = task_input.getGT();
+            if (ans != correct){            
+                return -1; 
+            }
             return { [ task_input.im_name+"_"+task_input.obj_id+"_"+task_input.inst_id+"_"+task_input.part_id+"_"+task_input.xCoord+"_"+task_input.yCoord ] : 
-                    { 'answer': task_input.getAnswer(),
+                    { 'answer': ans, 
                     //'im_name': task_input.im_name,
                     //'obj_id': task_input.obj_id,
                     //'inst_id': task_input.inst_id,
